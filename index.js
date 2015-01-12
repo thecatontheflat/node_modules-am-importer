@@ -31,9 +31,15 @@ var LicenseImporter = {
             });
     },
 
-    removeCollection: function (collection, items, callback) {
-        collection.remove({}, function () {
+    removeCollection: function (model, items, callback) {
+        model.remove({}, function () {
             callback(null, items);
+        });
+    },
+
+    insertItemsToCollection: function (model, items, callback) {
+        model.collection.insert(items, function (err, insertedItems) {
+            callback(null);
         });
     }
 };
