@@ -19,11 +19,7 @@ var LicenseImporter = {
                     }
 
                     json.forEach(function (license) {
-                        var LicenseReportModel = {
-                            license: license
-                        };
-
-                        items.push(LicenseReportModel);
+                        items.push(license);
                     });
 
                     callback(null, items);
@@ -31,15 +27,43 @@ var LicenseImporter = {
             });
     },
 
-    removeCollection: function (model, items, callback) {
-        model.remove({}, function () {
-            callback(null, items);
-        });
-    },
-
-    insertItemsToCollection: function (model, items, callback) {
-        model.collection.insert(items, function (err, insertedItems) {
-            callback(null);
+    updateItemsInCollection: function (model, items, callback) {
+        var count = 0;
+        console.log(items.length);
+        items.forEach(function (item) {
+            model.collection.update(
+                {licenseId: item.licenseId},
+                {
+                    licenseId: item.licenseId,
+                    organisationName: item.organisationName,
+                    addOnName: item.addOnName,
+                    addOnKey: item.addOnKey,
+                    technicalContactName: item.technicalContactName,
+                    technicalContactEmail: item.technicalContactEmail,
+                    technicalContactPhone: item.technicalContactPhone,
+                    technicalContactAddress1: item.technicalContactAddress1,
+                    technicalContactAddress2: item.technicalContactAddress2,
+                    technicalContactCity: item.technicalContactCity,
+                    technicalContactState: item.technicalContactState,
+                    technicalContactPostcode: item.technicalContactPostcode,
+                    technicalContactCountry: item.technicalContactCountry,
+                    billingContactName: item.billingContactName,
+                    billingContactEmail: item.billingContactEmail,
+                    billingContactPhone: item.billingContactPhone,
+                    edition: item.edition,
+                    licenseType: item.licenseType,
+                    startDate: item.startDate,
+                    endDate: item.endDate,
+                    renewalAction: item.renewalAction
+                },
+                {
+                    upsert: true
+                }, function (err, item) {
+                    count++;
+                    if (count == items.length) {
+                        callback(null);
+                    }
+                });
         });
     }
 };
