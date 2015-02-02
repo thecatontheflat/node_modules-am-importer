@@ -29,11 +29,13 @@ var LicenseImporter = {
 
     updateItemsInCollection: function (model, items, callback) {
         var count = 0;
-        console.log(items.length);
         items.forEach(function (item) {
-            model.collection.update(
-                {licenseId: item.licenseId},
-                {
+            var condition = {
+                licenseId: item.licenseId,
+                addOnKey: item.addOnKey
+            };
+
+            model.collection.update(condition, {
                     licenseId: item.licenseId,
                     organisationName: item.organisationName,
                     addOnName: item.addOnName,
