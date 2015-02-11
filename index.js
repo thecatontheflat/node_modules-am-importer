@@ -30,6 +30,7 @@ var LicenseImporter = {
     updateItemsInCollection: function (model, items, callback) {
         var count = 0;
         if (0 === items.length) {
+            console.log('Warning! Empty file!');
             return callback();
         }
 
