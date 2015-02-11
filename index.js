@@ -29,6 +29,10 @@ var LicenseImporter = {
 
     updateItemsInCollection: function (model, items, callback) {
         var count = 0;
+        if (0 === items.length) {
+            return callback();
+        }
+
         items.forEach(function (item) {
             var condition = {
                 licenseId: item.licenseId,
